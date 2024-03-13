@@ -90,7 +90,6 @@ class ZipCount
     }
     static async Task Main(string[] args)
     {
-        Console.WriteLine("BEGIN RUN");
 
         string filePath = "downloads/list.csv";
         int fileIndex = 0;
@@ -106,7 +105,7 @@ class ZipCount
                 string line;
                 while ((line = await sr.ReadLineAsync()) != null) // download 1 file per line
                 {
-                    Console.WriteLine(line);
+                    // Console.WriteLine(line);
                     await DownloadFileViaHttpClient(line, $"downloads/populationFiles/File_{fileIndex}.csv");
                     fileIndex++;
                 }

@@ -4,39 +4,39 @@ class ZipCount
     static async Task DownloadFileViaHttpClient(string url, string filePath)    
     {
         Console.WriteLine($"Attempting download - {url} - to {filePath}");
-        if (!File.Exists(filePath)) // if exists, don't redownload
+        if (!File.Exists(filePath)) // prevent overwriting by checking filePath
         {
-            try // download
+            try
             {
                 using (HttpClient client = new HttpClient())
                 {
                     // GET request to file (download)
                     HttpResponseMessage response = await client.GetAsync(url);
 
-                    if (response.IsSuccessStatusCode)
+                    if (response.IsSuccessStatusCode) // successful download
                     {
                         // read content stream - save to file
                         using (Stream contentStream = await response.Content.ReadAsStreamAsync())
                         {
                             using (FileStream fileStream = File.Create(filePath))
                             {
-                                await contentStream.CopyToAsync(fileStream);
+                                await contentStream.CopyToAsync(fileStream); // must be async
                             }
                         }
                         Console.WriteLine($"File download success - {filePath}");
                     }
-                    else
+                    else  // unsuccessful download
                     {
                         Console.WriteLine($"Error downloading file: {response.StatusCode}");
                     }
                 }
             }
-            catch (Exception ex) // error download
+            catch (Exception ex) // error download - general
             {
                 Console.WriteLine($"Error downloading file: {ex.Message}");
             }
         }
-        else // file exists
+        else // file exists already
         {
             Console.WriteLine($"File path {filePath} already exists!");
         }
@@ -45,15 +45,17 @@ class ZipCount
     static string ExtractZipCode(string line) 
     {
         string[] fields = line.Split(',');
+
         // CustomerID,FirstName,Lastname,Phone,Address01,Address02,City,State,ZipCode,ZipPlus4
         // ZipCode = line[8]
-        if (fields.Length >= 9)
+
+        if (fields.Length >= 9) // ensure line has proper/enough fields
         {
             return fields[8].Trim();
         } 
         else
         {
-            return "-1";
+            return "-1"; // function check: record -1 ZIP code on failure
         }
     }
 
@@ -64,14 +66,14 @@ class ZipCount
         {
             string[] lines = File.ReadAllLines(filePath);
 
-            foreach (string line in lines.Skip(1))
+            foreach (string line in lines.Skip(1)) // skip header row on open
             {
                 string zipCode = ExtractZipCode(line);
-                if (dict.ContainsKey(zipCode))
+                if (dict.ContainsKey(zipCode)) // if exists, increment dictionary index
                 {
                     dict[zipCode]++;
                 }
-                else
+                else // add to dictionary if new
                 {
                     dict[zipCode] = 1;
                 }
@@ -88,13 +90,15 @@ class ZipCount
             Console.WriteLine($"Finished reading file {filePath}");
         }
     }
+
     static async Task Main(string[] args)
     {
         string filePath = "downloads/list.csv";
-        int fileIndex = 0;
+        int fileIndex = 0; // keep count of # downloads
 
         // download the initial file - list.csv
-        await DownloadFileViaHttpClient("https://journeyblobstorage.blob.core.windows.net/sabpublic/list", filePath);
+        string listUrl = "https://journeyblobstorage.blob.core.windows.net/sabpublic/list";
+        await DownloadFileViaHttpClient(listUrl, filePath);
 
         // Read and process the downloaded file
         try
@@ -105,7 +109,8 @@ class ZipCount
                 while ((line = await sr.ReadLineAsync()) != null) // download 1 file per line
                 {
                     Console.WriteLine(line);
-                    await DownloadFileViaHttpClient(line, $"downloads/populationFiles/File_{fileIndex}.csv");
+                    // match given naming convention
+                    await DownloadFileViaHttpClient(line, $"downloads/populationFiles/File_{fileIndex}.csv"); 
                     fileIndex++;
                 }
             }

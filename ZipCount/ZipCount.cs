@@ -108,9 +108,8 @@ class ZipCount
                 string line;
                 while ((line = await sr.ReadLineAsync()) != null) // download 1 file per line
                 {
-                    Console.WriteLine(line);
                     // match given naming convention
-                    await DownloadFileViaHttpClient(line, $"downloads/populationFiles/File_{fileIndex}.csv"); 
+                    await DownloadFileViaHttpClient(line, $"downloads/populationFiles/File_{fileIndex}.csv");
                     fileIndex++;
                 }
             }

@@ -137,11 +137,11 @@ class ZipCount
         {
             // Create or overwrite the file with the sorted dictionary content
             filePath = "output.txt";
-            using (StreamWriter writer = new StreamWriter(filePath))
+            using (StreamWriter sw = new StreamWriter(filePath))
             {
                 foreach (var kvp in sortedDict)
                 {
-                    writer.WriteLine($"Zip Code: {kvp.Key}, Customer Count: {kvp.Value}");
+                    sw.WriteLine($"Zip Code: {kvp.Key}, Customer Count: {kvp.Value}");
                 }
             }
         }

@@ -93,6 +93,10 @@ class ZipCount
 
     static async Task Main(string[] args)
     {
+<<<<<<< HEAD
+=======
+
+>>>>>>> 82f2cd41aea4ec933281bda987aa7db0e97109e9
         string filePath = "downloads/list.csv";
         int fileIndex = 0; // keep count of # downloads
 
@@ -108,8 +112,13 @@ class ZipCount
                 string line;
                 while ((line = await sr.ReadLineAsync()) != null) // download 1 file per line
                 {
+<<<<<<< HEAD
                     // match given naming convention
                     await DownloadFileViaHttpClient(line, $"downloads/populationFiles/File_{fileIndex}.csv"); 
+=======
+                    // Console.WriteLine(line);
+                    await DownloadFileViaHttpClient(line, $"downloads/populationFiles/File_{fileIndex}.csv");
+>>>>>>> 82f2cd41aea4ec933281bda987aa7db0e97109e9
                     fileIndex++;
                 }
             }

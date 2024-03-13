@@ -90,8 +90,6 @@ class ZipCount
     }
     static async Task Main(string[] args)
     {
-        Console.WriteLine("BEGIN RUN");
-
         string filePath = "downloads/list.csv";
         int fileIndex = 0;
 

@@ -42,7 +42,6 @@ class ZipCount
         }
     }
 
-   
     static string ExtractZipCode(string line) 
     {
         string[] fields = line.Split(',');

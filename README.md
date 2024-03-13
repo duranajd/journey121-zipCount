@@ -11,10 +11,12 @@ ZipCount is a C# console application that downloads CSV files containing custome
 ## Features
 
 - Downloads CSV files from URLs specified in a list file.
+  - Built with HttpClient package
 - Extracts ZIP codes from customer data in CSV files.
+  - Built with StreamReader I/O
 - Counts the number of customers per ZIP code.
-- Generates a sorted list of ZIP codes with their respective customer counts.
-- Outputs the result to a text file.
+- Generates a list of ZIP codes, sorted by their respective customer counts.
+- Outputs the result to a text file 'output.txt', generated on completion.
 
 ## Getting Started
 

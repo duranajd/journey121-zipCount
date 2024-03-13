@@ -26,6 +26,7 @@ To use ZipCount, follow these steps:
 2. Open the project in Visual Studio or your preferred C# IDE.
 3. Build the project to compile the code.
 4. Run the executable to start the application.
+5. After running the project, you can clean the workspace with ./delete_files.sh
 
 ## Dependencies
 

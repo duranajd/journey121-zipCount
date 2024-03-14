@@ -2,7 +2,7 @@
 
 ### Created By: 
 * Andrew Duran, duranajd@gmail.com
-* Last Updated: 03/13/2024@14:41CDT
+* Last Updated: 03/13/2024@21:33CDT
 
 # ZipCount
 
@@ -20,7 +20,7 @@ To use ZipCount, follow these steps:
    * ./delete_files.sh
 6. Run the program to start the demonstration, and the results will be stored in ZipCount/output.txt.
 
-## Features
+## Workflow
 
 - Downloads CSV files from URLs specified in a list file (link provided via email).
   - Built with HttpClient package

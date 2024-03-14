@@ -1,7 +1,8 @@
 using System;
 class ZipCount
 {
-    static async Task DownloadFileViaHttpClient(string url, string filePath)    
+    // GET request to download file at URL, stores locally from /ZipCount/filePath
+    static async Task DownloadFileViaHttpClient(string url, string filePath)
     {
         Console.WriteLine($"Attempting download - {url} - to {filePath}");
         if (!File.Exists(filePath)) // prevent overwriting by checking filePath
@@ -42,10 +43,12 @@ class ZipCount
         }
     }
 
+    // split line into column fields and return Zip Code
     static string ExtractZipCode(string line) 
     {
         string[] fields = line.Split(',');
 
+        // file headers
         // CustomerID,FirstName,Lastname,Phone,Address01,Address02,City,State,ZipCode,ZipPlus4
         // ZipCode = line[8]
 
@@ -59,7 +62,7 @@ class ZipCount
         }
     }
 
-
+    // scan file using ExtractZipCode and add to/update dictionary
     static void ScanFile(string filePath, Dictionary<string, int> dict)
     {
         try
@@ -83,7 +86,7 @@ class ZipCount
         }
         catch (Exception ex) 
         {
-            Console.WriteLine($"StreamReader Error: {ex.Message}");
+            Console.WriteLine($"Error: {ex.Message}");
         }
         finally
         {
@@ -97,10 +100,11 @@ class ZipCount
         int fileIndex = 0; // keep count of # downloads
 
         // download the initial file - list.csv
+        // bad style to hard-code URLs, but works for this challenge
         string listUrl = "https://journeyblobstorage.blob.core.windows.net/sabpublic/list";
         await DownloadFileViaHttpClient(listUrl, filePath);
 
-        // Read and process the downloaded file
+        // read & process the downloaded file
         try
         {
             using (StreamReader sr = new StreamReader(filePath))
@@ -125,13 +129,15 @@ class ZipCount
         }
 
         // open each file, read lines & record
+        // dictionary - key value pairs (k=zipCode, v=customerCount)
         Dictionary<string, int> zipCodeCounts = new Dictionary<string, int>();
         for (int i = 0; i < fileIndex; i++) 
         {
             ScanFile($"downloads/populationFiles/File_{i}.csv", zipCodeCounts);
         }
 
-        var sortedDict = zipCodeCounts.OrderByDescending(kv => kv.Value).ToDictionary(kv => kv.Key, kv => kv.Value);
+        // list output from greatest customer population (value) to least
+        var sortedDict = zipCodeCounts.OrderByDescending(kv => kv.Value);
 
         try
         {

@@ -135,7 +135,7 @@ class ZipCount
 
         try
         {
-            // Create or overwrite the file with the sorted dictionary content
+            // create output file with sorted dictionary content
             filePath = "output.txt";
             using (StreamWriter sw = new StreamWriter(filePath))
             {
@@ -149,6 +149,8 @@ class ZipCount
         {
             Console.WriteLine($"Error writing to file: {ex.Message}");
         }
+
+         Console.WriteLine($"Results written to file: {filePath}");
     }
 
 }
